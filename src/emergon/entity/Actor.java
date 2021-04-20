@@ -1,13 +1,13 @@
 package emergon.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Actor {
     private int actorId;
     private String firstName;
     private String lastName;
-    private LocalDate lastUpdate;
+    private LocalDateTime lastUpdate;
 
     public Actor() {
     }
@@ -18,7 +18,13 @@ public class Actor {
         this.lastName = lastName;
     }
     
-    public Actor(int actorId, String firstName, String lastName, LocalDate lastUpdate) {
+    public Actor(String firstName, String lastName, LocalDateTime lastUpdate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.lastUpdate = lastUpdate;
+    }
+    
+    public Actor(int actorId, String firstName, String lastName, LocalDateTime lastUpdate) {
         this.actorId = actorId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,11 +55,11 @@ public class Actor {
         this.lastName = lastName;
     }
 
-    public LocalDate getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDate lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

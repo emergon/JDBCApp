@@ -3,9 +3,13 @@ package emergon.dao;
 import emergon.entity.Actor;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +25,7 @@ public class ActorDao {
 
 //    2. DriverManager will give us the connection object.
 //    3. Connection(url,port,username,password,schema/database)
-    public Connection getConnection() {
+    private Connection getConnection() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -31,10 +35,19 @@ public class ActorDao {
         return connection;
     }
 
-    public void closeConnections(ResultSet rs, Statement stmt, Connection conn) {
+    private void closeConnections(ResultSet rs, Statement stmt, Connection conn) {
         try {
             rs.close();
             stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void closeConnections(PreparedStatement pstm, Connection conn){
+        try {
+            pstm.close();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,7 +68,9 @@ public class ActorDao {
                 int actor_id = rs.getInt(1);
                 String fname = rs.getString(2);
                 String lname = rs.getString(3);
-                Actor actor = new Actor(actor_id, fname, lname);
+                Timestamp last_update = rs.getTimestamp("last_update");
+                LocalDateTime lastUpdated = getLocalDateTime(last_update);
+                Actor actor = new Actor(actor_id, fname, lname, lastUpdated);
                 list.add(actor);
             }
         } catch (SQLException ex) {
@@ -64,5 +79,33 @@ public class ActorDao {
             closeConnections(rs, stmt, conn);
         }
         return list;
+    }
+    
+    public void create(Actor actor){
+        Connection conn = getConnection();
+        String query = "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, ?)";
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(query);
+            pstm.setString(1, "Jack");
+            pstm.setString(2, "Jackson");
+            Timestamp last_update = Timestamp.valueOf(LocalDateTime.of(2021, Month.APRIL, 20, 19, 30, 03));
+            pstm.setTimestamp(3, last_update);
+            int result = pstm.executeUpdate();
+            if(result == 1){
+                System.out.println("Actor successfully created!!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            closeConnections(pstm, conn);
+        }
+    }
+
+    private LocalDateTime getLocalDateTime(Timestamp ts) {
+        if (ts != null) {
+            return ts.toLocalDateTime();
+        }
+        return null;
     }
 }

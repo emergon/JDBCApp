@@ -87,9 +87,9 @@ public class ActorDao {
         PreparedStatement pstm = null;
         try {
             pstm = conn.prepareStatement(query);
-            pstm.setString(1, "Jack");
-            pstm.setString(2, "Jackson");
-            Timestamp last_update = Timestamp.valueOf(LocalDateTime.of(2021, Month.APRIL, 20, 19, 30, 03));
+            pstm.setString(1, actor.getFirstName());
+            pstm.setString(2, actor.getLastName());
+            Timestamp last_update = Timestamp.valueOf(actor.getLastUpdate());
             pstm.setTimestamp(3, last_update);
             int result = pstm.executeUpdate();
             if(result == 1){

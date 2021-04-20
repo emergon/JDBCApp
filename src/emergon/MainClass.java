@@ -13,18 +13,33 @@ public class MainClass {
 
     public static void main(String[] args) throws SQLException {
         ActorDao actorDao = new ActorDao();
-        List<Actor> actors = actorDao.findAll();
-        for(Actor actor:actors){
-            System.out.println(actor);
-        }
+//        List<Actor> actors = actorDao.findAll();
+//        for(Actor actor:actors){
+//            System.out.println(actor);
+//        }
         //Actor actor = new Actor("Nick", "Nickolson", LocalDateTime.now());
         //actorDao.create(actor);
         
         //actor = actorDao.findById(59);
         //System.out.println(actor);
-        actorDao.delete(203);
+//        actorDao.delete(203);
         
-        actors = actorDao.findAll();
+//        actors = actorDao.findAll();
+//        for(Actor actor:actors){
+//            System.out.println(actor);
+//        }
+        
+        Actor actor2 = actorDao.findById(202);
+        System.out.println("actor2 before update:"+actor2);
+        actor2.setFirstName("Panagiotis");
+        actor2.setLastName("Papastamos");
+        actor2.setLastUpdate(LocalDateTime.now());
+        actorDao.update(actor2);
+        
+        actor2 = actorDao.findById(202);
+        System.out.println("actor2 after update:"+actor2);
+        
+        List<Actor> actors = actorDao.findAll();
         for(Actor actor:actors){
             System.out.println(actor);
         }

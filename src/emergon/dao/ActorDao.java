@@ -128,7 +128,25 @@ public class ActorDao {
     }
 
     public void update(Actor actor) {
-
+        Connection conn = getConnection();
+        String query = "UPDATE actor SET first_name = ?, last_name = ?, last_update = ? WHERE actor_id = ?";
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(query);
+            pstm.setInt(4, actor.getActorId());
+            pstm.setString(1, actor.getFirstName());
+            pstm.setString(2, actor.getLastName());
+            Timestamp last_update = Timestamp.valueOf(actor.getLastUpdate());
+            pstm.setTimestamp(3, last_update);
+            int result = pstm.executeUpdate();
+            if (result == 1) {
+                System.out.println("Actor successfully updated!!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(pstm, conn);
+        }
     }
 
     public void delete(int id) {

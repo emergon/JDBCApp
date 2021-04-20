@@ -18,7 +18,10 @@ public class MainClass {
 //            System.out.println(actor);
 //        }
         Actor actor = new Actor("Nick", "Nickolson", LocalDateTime.now());
-        actorDao.create(actor);
+        //actorDao.create(actor);
+        
+        actor = actorDao.findById(59);
+        System.out.println(actor);
     }
 
 }

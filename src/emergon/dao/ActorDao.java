@@ -132,7 +132,21 @@ public class ActorDao {
     }
 
     public void delete(int id) {
-
+        Connection conn = getConnection();
+        String query = "DELETE FROM actor WHERE actor_id = ?";
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(query);
+            pstm.setInt(1, id);
+            int result = pstm.executeUpdate();
+            if (result == 1) {
+                System.out.println("Actor successfully deleted!!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(pstm, conn);
+        }
     }
 
     private LocalDateTime getLocalDateTime(Timestamp ts) {

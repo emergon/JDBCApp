@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CountryDao extends GenericDao{
+public class CountryDao extends GenericDao implements CrudInterface<Country>{
 
     private static final String FINDBYID = "SELECT * FROM country WHERE country_id = ?";
     private static final String FINDALL = "SELECT * FROM country";

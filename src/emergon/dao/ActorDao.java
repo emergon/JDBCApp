@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ActorDao extends GenericDao{
+public class ActorDao extends GenericDao implements CrudInterface<Actor>{
 
     private static final String FINDBYID = "SELECT * FROM actor WHERE actor_id = ?";
     private static final String FINDALL = "SELECT * FROM actor";

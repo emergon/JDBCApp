@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GenericDao {
+public class GenericDao{
     private final String url = "jdbc:mysql://localhost:3306/sakila";
     private final String user = "root";
     private final String password = "root";

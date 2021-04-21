@@ -22,6 +22,11 @@ public class ActorDao {
     private String url = "jdbc:mysql://localhost:3306/sakila";
     private String user = "root";
     private String password = "root";
+    private static final String FINDBYID = "SELECT * FROM actor WHERE actor_id = ?";
+    private static final String FINDALL = "SELECT * FROM actor";
+    private static final String INSERT = "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, ?)";
+    private static final String UPDATE = "UPDATE actor SET first_name = ?, last_name = ?, last_update = ? WHERE actor_id = ?";
+    private static final String DELETE = "DELETE FROM actor WHERE actor_id = ?";
 
 //    2. DriverManager will give us the connection object.
 //    3. Connection(url,port,username,password,schema/database)
@@ -56,12 +61,11 @@ public class ActorDao {
 
     public Actor findById(int id) {
         Connection conn = getConnection();
-        String query = "SELECT * FROM actor WHERE actor_id = ?";
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Actor actor = null;
         try {
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(FINDBYID);
             pstm.setInt(1, id);
             rs = pstm.executeQuery();
             rs.next();
@@ -87,8 +91,7 @@ public class ActorDao {
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
-            String query = "SELECT * FROM actor";
-            rs = stmt.executeQuery(query);
+            rs = stmt.executeQuery(FINDALL);
             while (rs.next()) {
                 int actor_id = rs.getInt(1);
                 String fname = rs.getString(2);
@@ -108,10 +111,9 @@ public class ActorDao {
 
     public void create(Actor actor) {
         Connection conn = getConnection();
-        String query = "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, ?)";
         PreparedStatement pstm = null;
         try {
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(INSERT);
             pstm.setString(1, actor.getFirstName());
             pstm.setString(2, actor.getLastName());
             Timestamp last_update = Timestamp.valueOf(actor.getLastUpdate());
@@ -129,10 +131,9 @@ public class ActorDao {
 
     public void update(Actor actor) {
         Connection conn = getConnection();
-        String query = "UPDATE actor SET first_name = ?, last_name = ?, last_update = ? WHERE actor_id = ?";
         PreparedStatement pstm = null;
         try {
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(UPDATE);
             pstm.setInt(4, actor.getActorId());
             pstm.setString(1, actor.getFirstName());
             pstm.setString(2, actor.getLastName());
@@ -151,10 +152,9 @@ public class ActorDao {
 
     public void delete(int id) {
         Connection conn = getConnection();
-        String query = "DELETE FROM actor WHERE actor_id = ?";
         PreparedStatement pstm = null;
         try {
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(DELETE);
             pstm.setInt(1, id);
             int result = pstm.executeUpdate();
             if (result == 1) {

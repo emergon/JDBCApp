@@ -12,8 +12,8 @@ import java.util.List;
 public class MainClass {
 
     public static void main(String[] args) throws SQLException {
-//        testCountryFindAll();
-        testCountryFindById(1000);
+        testCountryFindAll();
+        //testCountryFindById(1000);
 //        testCountryCreate();
 //        testCountryUpdate();
 //        testCountryDelete(110);

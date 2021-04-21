@@ -14,48 +14,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CountryDao {
+public class CountryDao extends GenericDao{
 
-    private String url = "jdbc:mysql://localhost:3306/sakila";
-    private String user = "root";
-    private String password = "root";
     private static final String FINDBYID = "SELECT * FROM country WHERE country_id = ?";
     private static final String FINDALL = "SELECT * FROM country";
     private static final String INSERT = "INSERT INTO country (country, last_update) VALUES (?, ?)";
     private static final String UPDATE = "UPDATE country SET country = ?, last_update = ? WHERE country_id = ?";
     private static final String DELETE = "DELETE FROM country WHERE country_id = ?";
     private static final String FINDBYMAXID = "SELECT * FROM country WHERE country_id = (SELECT max(country_id) FROM country)";
-//    2. DriverManager will give us the connection object.
-//    3. Connection(url,port,username,password,schema/database)
-
-    private Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(CountryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return connection;
-    }
-
-    private void closeConnections(ResultSet rs, Statement stmt, Connection conn) {
-        try {
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CountryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void closeConnections(PreparedStatement pstm, Connection conn) {
-        try {
-            pstm.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CountryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public Country findById(int id) {
         Connection conn = getConnection();
@@ -184,10 +150,4 @@ public class CountryDao {
         return country;
     }
 
-    private LocalDateTime getLocalDateTime(Timestamp ts) {
-        if (ts != null) {
-            return ts.toLocalDateTime();
-        }
-        return null;
-    }
 }

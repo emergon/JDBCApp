@@ -2,62 +2,24 @@ package emergon.dao;
 
 import emergon.entity.Actor;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ActorDao {
+public class ActorDao extends GenericDao{
 
-    //crud operations (Insert, Select, Update, Delete)
-    //{PROTOCOL}://{IP}:{PORT}/{DATABASE}
-    private String url = "jdbc:mysql://localhost:3306/sakila";
-    private String user = "root";
-    private String password = "root";
     private static final String FINDBYID = "SELECT * FROM actor WHERE actor_id = ?";
     private static final String FINDALL = "SELECT * FROM actor";
     private static final String INSERT = "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, ?)";
     private static final String UPDATE = "UPDATE actor SET first_name = ?, last_name = ?, last_update = ? WHERE actor_id = ?";
     private static final String DELETE = "DELETE FROM actor WHERE actor_id = ?";
-
-//    2. DriverManager will give us the connection object.
-//    3. Connection(url,port,username,password,schema/database)
-    private Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return connection;
-    }
-
-    private void closeConnections(ResultSet rs, Statement stmt, Connection conn) {
-        try {
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void closeConnections(PreparedStatement pstm, Connection conn) {
-        try {
-            pstm.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ActorDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public Actor findById(int id) {
         Connection conn = getConnection();
@@ -165,12 +127,5 @@ public class ActorDao {
         } finally {
             closeConnections(pstm, conn);
         }
-    }
-
-    private LocalDateTime getLocalDateTime(Timestamp ts) {
-        if (ts != null) {
-            return ts.toLocalDateTime();
-        }
-        return null;
     }
 }

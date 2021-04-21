@@ -1,7 +1,7 @@
 package emergon;
 
-import emergon.dao.ActorDao;
-import emergon.entity.Actor;
+import emergon.dao.CountryDao;
+import emergon.entity.Country;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,37 +12,54 @@ import java.util.List;
 public class MainClass {
 
     public static void main(String[] args) throws SQLException {
-        ActorDao actorDao = new ActorDao();
-//        List<Actor> actors = actorDao.findAll();
-//        for(Actor actor:actors){
-//            System.out.println(actor);
-//        }
-        //Actor actor = new Actor("Nick", "Nickolson", LocalDateTime.now());
-        //actorDao.create(actor);
-        
-        //actor = actorDao.findById(59);
-        //System.out.println(actor);
-//        actorDao.delete(203);
-        
-//        actors = actorDao.findAll();
-//        for(Actor actor:actors){
-//            System.out.println(actor);
-//        }
-        
-        Actor actor2 = actorDao.findById(202);
-        System.out.println("actor2 before update:"+actor2);
-        actor2.setFirstName("Panagiotis");
-        actor2.setLastName("Papastamos");
-        actor2.setLastUpdate(LocalDateTime.now());
-        actorDao.update(actor2);
-        
-        actor2 = actorDao.findById(202);
-        System.out.println("actor2 after update:"+actor2);
-        
-        List<Actor> actors = actorDao.findAll();
-        for(Actor actor:actors){
-            System.out.println(actor);
+//        testCountryFindAll();
+        testCountryFindById(1000);
+//        testCountryCreate();
+//        testCountryUpdate();
+//        testCountryDelete(110);
+    }
+    
+    public static void testCountryFindAll(){
+        CountryDao cdao = new CountryDao();
+        List<Country> list = cdao.findAll();
+        for(Country country: list){
+            System.out.println(country);
         }
     }
+    
+    public static void testCountryFindById(int id){
+        CountryDao cdao = new CountryDao();
+        Country country = cdao.findById(id);
+        System.out.println("Country is : "+country);
+    }
+    
+    public static void testCountryCreate(){
+        CountryDao cdao = new CountryDao();
+        Country country = new Country("Zimbambue", LocalDateTime.now());
+        cdao.create(country);
+        testCountryFindByMaxId();
+    }
 
+    public static void testCountryUpdate(){
+        CountryDao cdao = new CountryDao();
+        Country country = cdao.findById(110);
+        country.setCountry("name2");
+        country.setLastUpdate(LocalDateTime.now());
+        cdao.update(country);
+        country = cdao.findById(110);
+        System.out.println("Updated country:"+country);
+    }
+    
+    public static void testCountryDelete(int id){
+        CountryDao cdao = new CountryDao();
+        cdao.delete(id);
+        Country country = cdao.findById(id);
+        System.out.println("country:"+country);
+    }
+    
+    public static void testCountryFindByMaxId(){
+        CountryDao cdao = new CountryDao();
+        Country country = cdao.findByMaxId();
+        System.out.println("Country with max id is:"+country);
+    }
 }

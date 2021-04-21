@@ -6,17 +6,17 @@ import java.util.Objects;
 public class Country {
     private int countryId;
     private String country;
-    private LocalDateTime lastUpdated;
+    private LocalDateTime lastUpdate;
 
-    public Country(String country, LocalDateTime lastUpdated) {
+    public Country(String country, LocalDateTime lastUpdate) {
         this.country = country;
-        this.lastUpdated = lastUpdated;
+        this.lastUpdate = lastUpdate;
     }
 
-    public Country(int countryId, String country, LocalDateTime lastUpdated) {
+    public Country(int countryId, String country, LocalDateTime lastUpdate) {
         this.countryId = countryId;
         this.country = country;
-        this.lastUpdated = lastUpdated;
+        this.lastUpdate = lastUpdate;
     }
 
     public int getCountryId() {
@@ -35,12 +35,12 @@ public class Country {
         this.country = country;
     }
 
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Country {
         int hash = 3;
         hash = 83 * hash + this.countryId;
         hash = 83 * hash + Objects.hashCode(this.country);
-        hash = 83 * hash + Objects.hashCode(this.lastUpdated);
+        hash = 83 * hash + Objects.hashCode(this.lastUpdate);
         return hash;
     }
 
@@ -70,7 +70,7 @@ public class Country {
         if (!Objects.equals(this.country, other.country)) {
             return false;
         }
-        if (!Objects.equals(this.lastUpdated, other.lastUpdated)) {
+        if (!Objects.equals(this.lastUpdate, other.lastUpdate)) {
             return false;
         }
         return true;
@@ -78,7 +78,7 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" + "countryId=" + countryId + ", country=" + country + ", lastUpdated=" + lastUpdated + '}';
+        return "Country{" + "countryId=" + countryId + ", country=" + country + ", lastUpdate=" + lastUpdate + '}';
     }
     
 }

@@ -96,9 +96,9 @@ public class City {
         StringBuilder builder = new StringBuilder();
         builder.append("City{")
                 .append("cityId=").append(cityId)
-                .append(",name=").append(name)
-                .append(",country=").append(country.getCountry())
-                .append(",lastUpdate=").append(lastUpdate)
+                .append(", name=").append(name)
+                .append(", country=").append(country.getCountry())
+                .append(", lastUpdate=").append(lastUpdate)
                 .append('}');
         return builder.toString();
     }

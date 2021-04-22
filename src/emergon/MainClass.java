@@ -27,10 +27,19 @@ public class MainClass {
 //        testCityFindById(38);
 //        testCityCreate("Farsala", "Greece");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Which country's city would you like to see?");
+        System.out.println("Which country's cities would you like to see?");
         String countryName = scanner.next();
         System.out.println("I would like to see "+ countryName +" cities:");
         //show country's cities;
+        CountryDao countryDao = new CountryDao();
+        Country country = countryDao.findByName(countryName);
+        System.out.println("cities of country before:"+country.getCities());
+        System.out.println(country);
+        CityDao cityDao = new CityDao();
+        country = cityDao.findByCountryName(country);
+        for(City city: country.getCities()){
+            System.out.println(city);
+        }//manipulation of the country object
     }
     
     public static void testCountryFindAll() {

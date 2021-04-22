@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 public class CityDao extends GenericDao implements CrudInterface<City> {
 
     private static final String FINDBYID = "SELECT * FROM city WHERE city_id = ?";
+    private static final String FINDBYCOUNTRYNAME = "select * from city where country_id = (select country_id from country where country = ?)";
     private static final String FINDALL = "SELECT * FROM city";
     private static final String INSERT = "INSERT INTO city (city, country_id, last_update) VALUES (?, ?, ?)";
     private static final String UPDATE = "UPDATE city SET city = ?, country_id = ?, last_update = ? WHERE city_id = ?";
@@ -38,7 +39,7 @@ public class CityDao extends GenericDao implements CrudInterface<City> {
             while (rs.next()) {
                 int cityId = rs.getInt("city_id");
                 String name = rs.getString("city");
-                if(name.equals("Athenai")){
+                if (name.equals("Athenai")) {
                     rs.updateDate("last_update", Date.valueOf(LocalDate.now()));
                     rs.updateRow();
                 }
@@ -114,6 +115,33 @@ public class CityDao extends GenericDao implements CrudInterface<City> {
     @Override
     public void delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Country findByCountryName(Country country) {
+        Connection conn = getConnection();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = conn.prepareStatement(FINDBYCOUNTRYNAME);
+            pstm.setString(1, country.getCountry());
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                int cityId = rs.getInt("city_id");
+                String onoma = rs.getString("city");
+                //int countryId = rs.getInt("country_id");
+                //Country country = getCountryById(countryId);
+                Date last_update = rs.getDate("last_update");
+                LocalDate lastUpdated = getLocalDate(last_update);
+                City city = new City(cityId, onoma, country, lastUpdated);
+                country.addCity(city);
+            }
+        } catch (SQLException ex) {
+            String message = "City with name " + country.getCountry() + " could not be found!!!";
+            Logger.getLogger(CityDao.class.getName()).log(Level.SEVERE, message);
+        } finally {
+            closeConnections(rs, pstm, conn);
+        }
+        return country;
     }
 
     /**

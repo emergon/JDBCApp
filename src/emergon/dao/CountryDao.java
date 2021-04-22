@@ -22,7 +22,8 @@ public class CountryDao extends GenericDao implements CrudInterface<Country>{
     private static final String UPDATE = "UPDATE country SET country = ?, last_update = ? WHERE country_id = ?";
     private static final String DELETE = "DELETE FROM country WHERE country_id = ?";
     private static final String FINDBYMAXID = "SELECT * FROM country WHERE country_id = (SELECT max(country_id) FROM country)";
-
+    private static final String FINDBYNAME = "SELECT * FROM country WHERE country = ?";
+    
     public Country findById(int id) {
         Connection conn = getConnection();
         PreparedStatement pstm = null;
@@ -146,6 +147,30 @@ public class CountryDao extends GenericDao implements CrudInterface<Country>{
             Logger.getLogger(CountryDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnections(rs, stmt, conn);
+        }
+        return country;
+    }
+    
+    public Country findByName(String name) {
+        Connection conn = getConnection();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Country country = null;
+        try {
+            pstm = conn.prepareStatement(FINDBYNAME);
+            pstm.setString(1, name);
+            rs = pstm.executeQuery();
+            rs.next();
+            int countryId = rs.getInt(1);
+            String onoma = rs.getString(2);
+            Timestamp last_update = rs.getTimestamp("last_update");
+            LocalDateTime lastUpdated = getLocalDateTime(last_update);
+            country = new Country(countryId, onoma, lastUpdated);
+        } catch (SQLException ex) {
+            String message = "Country with name "+name+" could not be found!!!";
+            Logger.getLogger(CountryDao.class.getName()).log(Level.SEVERE, message);
+        } finally {
+            closeConnections(rs, pstm, conn);
         }
         return country;
     }

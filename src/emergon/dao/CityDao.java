@@ -32,11 +32,16 @@ public class CityDao extends GenericDao implements CrudInterface<City> {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = stmt.executeQuery(FINDALL);
+            rs.absolute(37);
             while (rs.next()) {
                 int cityId = rs.getInt("city_id");
                 String name = rs.getString("city");
+                if(name.equals("Athenai")){
+                    rs.updateDate("last_update", Date.valueOf(LocalDate.now()));
+                    rs.updateRow();
+                }
                 int countryId = rs.getInt("country_id");
                 Country country = getCountryById(countryId);
                 Date last_update = rs.getDate("last_update");
@@ -59,8 +64,8 @@ public class CityDao extends GenericDao implements CrudInterface<City> {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         City city = null;
-        try {
-            pstm = conn.prepareStatement(FINDBYID);
+        try {//FINDBYID
+            pstm = conn.prepareStatement(FINDBYID, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             pstm.setInt(1, id);
             rs = pstm.executeQuery();
             rs.next();

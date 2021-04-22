@@ -1,12 +1,14 @@
 package emergon.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public class Country {
     private int countryId;
     private String country;
     private LocalDateTime lastUpdate;
+    private List<City> cities;
 
     public Country(String country, LocalDateTime lastUpdate) {
         this.country = country;
@@ -43,6 +45,14 @@ public class Country {
         this.lastUpdate = lastUpdate;
     }
 
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

@@ -19,10 +19,11 @@ public class MainClass {
         //testCountryFindById(1000);
 //        testCountryCreate();
 //        testCountryUpdate();
-//        testCountryDelete(110);
+//        testCountryDelete(39);
         
-        testCityCreate();
-        testCityFindAll();
+//        testCityCreate();
+//        testCityFindAll();
+//        testCityFindById(38);
     }
 
     public static void testCountryFindAll() {
@@ -84,5 +85,11 @@ public class MainClass {
         Country greece = countryDao.findById(39);
         City city = new City("Larisa", greece, LocalDate.now());
         cityDao.create(city);
+    }
+    
+    public static void testCityFindById(int id){
+        CityDao cityDao = new CityDao();
+        City city = cityDao.findById(id);
+        System.out.println("city::::"+city);
     }
 }

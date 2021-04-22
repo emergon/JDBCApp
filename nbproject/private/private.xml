@@ -4,8 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/dao/ActorDao.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/dao/CountryDao.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/entity/City.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/entity/Actor.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/dao/CityDao.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/dao/GenericDao.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/MainClass.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/entity/Country.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/JDBCApp/src/emergon/dao/CrudInterface.java</file>
         </group>
     </open-files>
 </project-private>

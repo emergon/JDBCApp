@@ -40,7 +40,8 @@ public class CityDao extends GenericDao implements CrudInterface<City> {
                 int countryId = rs.getInt("country_id");
                 Country country = getCountryById(countryId);
                 Date last_update = rs.getDate("last_update");
-                LocalDate lastUpdated = getLocalDate(last_update);
+                LocalDate lastUpdated = last_update.toLocalDate();
+                // = getLocalDate(last_update);
                 City city = new City(cityId, name, country, lastUpdated);
                 list.add(city);
             }
